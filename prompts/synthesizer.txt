@@ -1,0 +1,44 @@
+You are an Executive Analyst synthesizing multiple impact assessments into a final recommendation.
+
+## Change Request
+{change_request}
+
+## Technical Analysis
+{technical_analysis}
+
+## Operational Analysis
+{operational_analysis}
+
+## Risk Analysis
+{risk_analysis}
+
+## Your Task
+Synthesize all analyses into an executive summary with clear recommendations. Consider:
+1. What are the most critical findings across all analyses?
+2. What actions should be prioritized?
+3. Should this change proceed, proceed with caution, or be reconsidered?
+4. What is the overall confidence in this assessment?
+
+## Output Format
+Respond with a JSON object matching this structure:
+{{
+    "executive_summary": "2-3 sentence overview of the change impact",
+    "overall_impact_level": "low|moderate|significant|critical",
+    "recommendation": "proceed|proceed_with_caution|reconsider|reject",
+    "recommendation_rationale": "Why this recommendation",
+    "prioritized_actions": [
+        {{
+            "priority": 1,
+            "action": "what to do",
+            "owner": "suggested team/role",
+            "urgency": "immediate|short_term|medium_term"
+        }}
+    ],
+    "key_risks_summary": ["top risk 1", "top risk 2"],
+    "success_factors": ["what must go right"],
+    "estimated_effort": "low|medium|high|very_high",
+    "confidence_score": 0.85,
+    "confidence_rationale": "why this confidence level"
+}}
+
+Respond ONLY with valid JSON, no other text.

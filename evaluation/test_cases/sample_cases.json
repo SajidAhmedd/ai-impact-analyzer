@@ -1,0 +1,106 @@
+[
+    {
+        "id": "case_001",
+        "name": "Refund Threshold Increase",
+        "change_request": "Increase the refund approval threshold from $100 to $500, allowing customer service representatives to process larger refunds without manager approval.",
+        "expected": {
+            "technical": {
+                "should_mention": ["payment", "approval", "workflow"],
+                "affected_systems_min": 1,
+                "migration_required": false
+            },
+            "operational": {
+                "should_mention": ["customer service", "manager", "approval"],
+                "teams_impacted_min": 1,
+                "training_required": true
+            },
+            "risk": {
+                "should_mention": ["fraud", "financial", "abuse"],
+                "min_risks": 1,
+                "expected_risk_level": ["medium", "high"]
+            },
+            "synthesis": {
+                "expected_recommendations": ["proceed", "proceed_with_caution"],
+                "should_have_actions": true
+            }
+        }
+    },
+    {
+        "id": "case_002",
+        "name": "JWT Authentication Migration",
+        "change_request": "Migrate user authentication from session-based cookies to JWT tokens for all API endpoints.",
+        "expected": {
+            "technical": {
+                "should_mention": ["authentication", "JWT", "token", "API", "session"],
+                "affected_systems_min": 2,
+                "migration_required": true
+            },
+            "operational": {
+                "should_mention": ["security", "development", "engineering"],
+                "teams_impacted_min": 1,
+                "training_required": true
+            },
+            "risk": {
+                "should_mention": ["security", "token", "downtime"],
+                "min_risks": 2,
+                "expected_risk_level": ["medium", "high"]
+            },
+            "synthesis": {
+                "expected_recommendations": ["proceed_with_caution", "reconsider"],
+                "should_have_actions": true
+            }
+        }
+    },
+    {
+        "id": "case_003",
+        "name": "Remote Work Policy",
+        "change_request": "Allow all employees to work remotely 3 days per week, changing from the current 1 day per week policy.",
+        "expected": {
+            "technical": {
+                "should_mention": ["VPN", "remote", "access", "infrastructure"],
+                "affected_systems_min": 1,
+                "migration_required": false
+            },
+            "operational": {
+                "should_mention": ["HR", "employee", "policy", "schedule"],
+                "teams_impacted_min": 2,
+                "training_required": true
+            },
+            "risk": {
+                "should_mention": ["productivity", "communication", "security"],
+                "min_risks": 1,
+                "expected_risk_level": ["low", "medium"]
+            },
+            "synthesis": {
+                "expected_recommendations": ["proceed", "proceed_with_caution"],
+                "should_have_actions": true
+            }
+        }
+    },
+    {
+        "id": "case_004",
+        "name": "Data Retention Reduction",
+        "change_request": "Change data retention policy from 7 years to 5 years for customer transaction records.",
+        "expected": {
+            "technical": {
+                "should_mention": ["database", "storage", "archive", "data"],
+                "affected_systems_min": 1,
+                "migration_required": false
+            },
+            "operational": {
+                "should_mention": ["compliance", "legal", "audit"],
+                "teams_impacted_min": 1,
+                "training_required": false
+            },
+            "risk": {
+                "should_mention": ["compliance", "legal", "regulatory", "audit"],
+                "min_risks": 1,
+                "expected_risk_level": ["medium", "high", "critical"]
+            },
+            "synthesis": {
+                "expected_recommendations": ["proceed_with_caution", "reconsider"],
+                "should_have_actions": true
+            }
+        }
+    }
+]
