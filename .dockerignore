@@ -34,7 +34,8 @@ docs/
 !README.md
 
 # Local data (use volumes instead)
-data/
+data/*
+!data/documents/
 logs/
 *.db
 

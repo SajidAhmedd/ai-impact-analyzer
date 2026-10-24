@@ -2,6 +2,7 @@
 AI Change Impact Analyzer - Streamlit Frontend
 """
 
+import os
 import sys
 sys.path.insert(0, ".")
 
@@ -10,8 +11,8 @@ import requests
 import json
 from datetime import datetime
 
-API_URL = "http://localhost:8000"
-API_KEY = "b6506c18af9d752de9da6402f6cad08726eac4d775c7487883c9b0ab96d4e748"
+API_URL = os.getenv("API_URL", "http://localhost:8000")
+API_KEY = os.getenv("API_KEY", "dev-api-key-change-in-production")
 
 def get_headers():
     return {"X-API-Key": API_KEY}
@@ -33,7 +34,7 @@ with st.sidebar:
         st.error("API Not Available")
         st.caption("Make sure FastAPI is running on port 8000")
     st.divider()
-    st.caption("Built with LangGraph + Ollama + ChromaDB")
+    st.caption("Built with LangGraph + FastAPI + ChromaDB")
 
 st.header("Enter Change Request")
 
