@@ -109,8 +109,8 @@ Organizations frequently face challenges when implementing business or policy ch
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/ai-change-impact-analyzer.git
-cd ai-change-impact-analyzer
+git clone https://github.com/SajidAhmedd/ai-impact-analyzer.git
+cd ai-impact-analyzer
 
 # Copy environment file
 cp .env.example .env
@@ -214,7 +214,7 @@ curl -X POST "http://localhost:8000/analysis/run"   -H "X-API-Key: your-api-key"
 ## Project Structure
 
 ```
-ai-change-impact-analyzer/
+ai-impact-analyzer/
 ├── app/
 │   ├── api/
 │   │   ├── routes/          # API endpoints
