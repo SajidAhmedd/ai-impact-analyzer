@@ -6,15 +6,14 @@ WHAT ARE EMBEDDINGS:
 - Similar text = similar vectors
 - Used for semantic search (find documents similar to a query)
 
-WHY nomic-embed-text:
-- Designed for RAG applications
-- Good balance of speed and quality
-- Runs locally via Ollama
-- 768-dimensional vectors
+PROVIDERS (set EMBEDDINGS_PROVIDER):
+- ollama: nomic-embed-text via a local Ollama server (768 dimensions)
+- fastembed: BAAI/bge-small-en-v1.5 running in-process on CPU (384 dimensions),
+  so the hosted demo needs no separate model server
 """
 
 from functools import lru_cache
-from langchain_ollama import OllamaEmbeddings
+from langchain_core.embeddings import Embeddings
 import structlog
 
 from app.config import get_settings
@@ -23,9 +22,9 @@ logger = structlog.get_logger()
 
 
 @lru_cache
-def get_embeddings() -> OllamaEmbeddings:
+def get_embeddings() -> Embeddings:
     """
-    Returns a cached OllamaEmbeddings instance.
+    Returns a cached embedding model for the configured provider.
 
     WHY CACHE:
     - Embedding model loads into memory
@@ -37,19 +36,35 @@ def get_embeddings() -> OllamaEmbeddings:
 
         embeddings = get_embeddings()
         vector = embeddings.embed_query("Hello world")
-        print(len(vector))  # 768 dimensions
+        print(len(vector))
     """
     settings = get_settings()
+    provider = settings.EMBEDDINGS_PROVIDER.lower()
 
-    logger.info(
-        "Initializing embedding model",
-        model=settings.OLLAMA_EMBED_MODEL,
-        base_url=settings.OLLAMA_BASE_URL
-    )
+    if provider == "fastembed":
+        from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 
-    return OllamaEmbeddings(
-        model=settings.OLLAMA_EMBED_MODEL,
-        base_url=settings.OLLAMA_BASE_URL,
+        logger.info("Initializing embedding model", provider="fastembed", model=settings.FASTEMBED_MODEL)
+
+        return FastEmbedEmbeddings(model_name=settings.FASTEMBED_MODEL)
+
+    if provider == "ollama":
+        from langchain_ollama import OllamaEmbeddings
+
+        logger.info(
+            "Initializing embedding model",
+            provider="ollama",
+            model=settings.OLLAMA_EMBED_MODEL,
+            base_url=settings.OLLAMA_BASE_URL
+        )
+
+        return OllamaEmbeddings(
+            model=settings.OLLAMA_EMBED_MODEL,
+            base_url=settings.OLLAMA_BASE_URL,
+        )
+
+    raise ValueError(
+        f"Unknown EMBEDDINGS_PROVIDER: {settings.EMBEDDINGS_PROVIDER}. Use 'ollama' or 'fastembed'."
     )
 
 

@@ -31,6 +31,25 @@ class Settings(BaseSettings):
     OLLAMA_MODEL: str = "llama3"
     OLLAMA_EMBED_MODEL: str = "nomic-embed-text"
 
+    # Provider selection
+    # LLM_PROVIDER: "ollama" (local), "groq" or "gemini" (hosted, used for the public demo)
+    # LLM_FALLBACK_PROVIDER: optional provider to retry on when the primary fails (e.g. rate limits)
+    # EMBEDDINGS_PROVIDER: "ollama" (local) or "fastembed" (runs in-process, no server needed)
+    LLM_PROVIDER: str = "ollama"
+    LLM_FALLBACK_PROVIDER: str = ""
+    EMBEDDINGS_PROVIDER: str = "ollama"
+
+    # Groq Configuration
+    GROQ_API_KEY: str = ""
+    GROQ_MODEL: str = "openai/gpt-oss-20b"
+
+    # Google Gemini Configuration
+    GEMINI_API_KEY: str = ""
+    GEMINI_MODEL: str = "gemini-flash-latest"
+
+    # FastEmbed Configuration (only used when EMBEDDINGS_PROVIDER=fastembed)
+    FASTEMBED_MODEL: str = "BAAI/bge-small-en-v1.5"
+
     # Model Parameters
     # Temperature: 0 = deterministic, 1 = creative
     # For analysis tasks, we want low temperature (consistent outputs)
@@ -44,6 +63,9 @@ class Settings(BaseSettings):
     # Retrieval Configuration
     # How many documents to retrieve for context
     RETRIEVAL_TOP_K: int = 5
+
+    # Load data/documents into an empty vector store at startup (used by the hosted demo)
+    SEED_SAMPLE_DOCUMENTS: bool = False
 
     # Application Settings
     LOG_LEVEL: str = "INFO"

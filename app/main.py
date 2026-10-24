@@ -69,6 +69,28 @@ async def startup_event():
     if not settings.AUTH_ENABLED:
         logger.warning("Authentication is DISABLED - not recommended for production!")
 
+    if settings.SEED_SAMPLE_DOCUMENTS:
+        seed_sample_documents()
+
+
+def seed_sample_documents():
+    """
+    Load the bundled sample documents when the vector store is empty.
+
+    WHY: hosted demos start with fresh, ephemeral storage, so without this
+    the agents would have no organizational context to retrieve.
+    """
+    from app.core.vectorstore import get_collection_stats
+    from app.ingestion.processor import process_directory
+
+    try:
+        if get_collection_stats().get("count", 0) > 0:
+            return
+        chunks = process_directory("data/documents", metadata={"department": "demo", "doc_type": "policy"})
+        logger.info("Seeded sample documents", chunks=chunks)
+    except Exception as e:
+        logger.error("Failed to seed sample documents", error=str(e))
+
 
 @app.on_event("shutdown")
 async def shutdown_event():
