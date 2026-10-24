@@ -40,6 +40,12 @@ ENV PYTHONUNBUFFERED=1
 ENV HOME=/home/appuser
 ENV FASTEMBED_CACHE_PATH=/app/.cache/fastembed
 
+# Hosted demo defaults (docker-compose overrides these from .env for local Ollama use)
+ENV LLM_PROVIDER=groq \
+    LLM_FALLBACK_PROVIDER=gemini \
+    EMBEDDINGS_PROVIDER=fastembed \
+    SEED_SAMPLE_DOCUMENTS=true
+
 # Download the in-process embedding model at build time so cold starts are fast
 RUN python -c "from fastembed import TextEmbedding; TextEmbedding('BAAI/bge-small-en-v1.5', cache_dir='/app/.cache/fastembed')"
 
