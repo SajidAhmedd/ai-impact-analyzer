@@ -1,6 +1,19 @@
+---
+title: AI Change Impact Analyzer
+emoji: 📊
+colorFrom: indigo
+colorTo: blue
+sdk: docker
+app_port: 7860
+pinned: true
+short_description: Multi-agent AI that predicts the impact of policy changes
+---
+
 # AI Change Impact Analyzer
 
-A multi-agent AI system that analyzes business and policy changes to predict technical, operational, and risk impacts. Built with LangGraph for orchestration, Ollama for local LLM inference, and FastAPI for the backend.
+A multi-agent AI system that analyzes business and policy changes to predict technical, operational, and risk impacts. Built with LangGraph for orchestration, FastAPI for the backend, and Groq/Gemini (hosted) or Ollama (local) for LLM inference.
+
+**Live demo: [impact.sajidahmed.dev](https://impact.sajidahmed.dev)**
 
 ![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-green.svg)
@@ -91,8 +104,8 @@ Organizations frequently face challenges when implementing business or policy ch
 |-----------|------------|
 | Backend | FastAPI, Pydantic |
 | Orchestration | LangGraph |
-| LLM | Ollama (llama3) |
-| Embeddings | nomic-embed-text |
+| LLM | Groq (gpt-oss-20b) with automatic Gemini fallback; Ollama (llama3) locally |
+| Embeddings | FastEmbed (bge-small-en-v1.5) in-process; nomic-embed-text via Ollama locally |
 | Vector DB | ChromaDB |
 | Frontend | Streamlit |
 | Logging | Structlog |
@@ -246,6 +259,13 @@ ai-impact-analyzer/
 Environment variables (`.env`):
 
 ```env
+# Providers: ollama | groq | gemini (LLM), ollama | fastembed (embeddings)
+LLM_PROVIDER=ollama
+LLM_FALLBACK_PROVIDER=
+EMBEDDINGS_PROVIDER=ollama
+GROQ_API_KEY=
+GEMINI_API_KEY=
+
 # Ollama Configuration
 OLLAMA_BASE_URL=http://localhost:11434
 OLLAMA_MODEL=llama3
@@ -292,6 +312,16 @@ ruff format .
 # Lint code
 ruff check .
 ```
+
+## Deployment
+
+The live demo runs as a single Docker container on Hugging Face Spaces: FastAPI on an internal port and the
+Streamlit UI on port 7860. Groq serves the LLM, with every request falling back to Google Gemini if Groq is
+rate-limited or unavailable, and FastEmbed computes embeddings in-process, so no model server is needed.
+The bundled sample policy is indexed on startup.
+
+Every push to `main` is deployed by `.github/workflows/deploy-hf.yml`, which also pings the demo twice a day
+to keep the free Space awake. `impact.sajidahmed.dev` is served through a Cloudflare Worker that proxies the Space.
 
 ## Roadmap
 
