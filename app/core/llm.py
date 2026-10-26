@@ -46,6 +46,7 @@ def _build_llm(provider: str) -> BaseChatModel:
             api_key=settings.GROQ_API_KEY,
             temperature=settings.LLM_TEMPERATURE,
             max_retries=1,
+            timeout=30,
         )
 
     if provider == "gemini":
@@ -60,6 +61,7 @@ def _build_llm(provider: str) -> BaseChatModel:
             google_api_key=settings.GEMINI_API_KEY,
             temperature=settings.LLM_TEMPERATURE,
             max_retries=1,
+            timeout=30,
         )
 
     if provider == "ollama":
