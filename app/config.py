@@ -45,7 +45,7 @@ class Settings(BaseSettings):
 
     # Google Gemini Configuration
     GEMINI_API_KEY: str = ""
-    GEMINI_MODEL: str = "gemini-flash-latest"
+    GEMINI_MODEL: str = "gemini-3-flash-preview"
 
     # FastEmbed Configuration (only used when EMBEDDINGS_PROVIDER=fastembed)
     FASTEMBED_MODEL: str = "BAAI/bge-small-en-v1.5"
